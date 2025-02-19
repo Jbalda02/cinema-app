@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchByNameService } from '../../servicios/search-by-name.service';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   standalone:true,
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

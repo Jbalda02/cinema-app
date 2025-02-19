@@ -5,7 +5,7 @@ import { DetailsComponent } from './componentes/details/details.component';
 
 export const routes: Routes = [
   { path: 'search', component: SearchComponent },
-  { path: 'details', component: DetailsComponent },
-  { path: 'home', component: HomeComponent }, // Render HomeComponent for empty path
+  { path: 'details/:id', component: DetailsComponent },
+  { path: 'home', component: HomeComponent }, 
   { path: '**', redirectTo: 'home' } // Redirect any unknown paths to the home route
 ];

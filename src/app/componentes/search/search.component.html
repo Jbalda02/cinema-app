@@ -1,13 +1,13 @@
-<h2>Search Results for "{{ query }}"</h2>
+<h2 class="text-center text-white">Search Results for "{{ query }}"</h2>
 <div class="container">
   <div class="row">
     <!-- Loop through the results and display each movie in a column -->
     <div *ngFor="let movie of results" class="col-md-4 mb-4">
-      <div class="card h-100">
+      <div class="card h-100 bs-dark-border-subtle bg-secondary" [routerLink]="['/details',movie.id]" style="cursor:pointer">
         <img
           src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}"
           class="card-img-top"
-          alt="{{ movie.title }}"
+          alt="No Poster Found "
         />
         <div class="card-body">
           <h5 class="card-title">{{ movie.title }}</h5>
