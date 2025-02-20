@@ -12,6 +12,7 @@ import { Movie, Actor, Review } from '../../servicios/servicios/movie';
   standalone: true,
   imports: [CommonModule, FormsModule, CurrencyPipe],
   templateUrl: './details.component.html',
+  styleUrls: ['./details.component.css'],
 })
 export class DetailsComponent implements OnInit {
   movie: Movie | undefined;
@@ -19,6 +20,7 @@ export class DetailsComponent implements OnInit {
   reviews: Review[] = [];
   comments: string[] = [];
   newComment: string = '';
+  userEmail: string = ''; // Agrega esta propiedad
   loading = false;
 
   constructor(

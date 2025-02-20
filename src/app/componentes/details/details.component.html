@@ -1,62 +1,150 @@
 <div class="container" *ngIf="movie">
-    <div class="row">
-      <div class="col-md-4">
-        <img
-          [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path"
-          alt="{{ movie.title }}"
-          class="img-fluid"
-        />
+  <div class="row">
+    <div class="col-md-4">
+      <img
+        [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path"
+        alt="{{ movie.title }}"
+        class="img-fluid"
+      />
+    </div>
+    <div class="col-md-8">
+      <h2>{{ movie.title }}</h2>
+
+      <div class="accordion" id="movieDetailsAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#scoreCollapse" aria-expanded="true" aria-controls="scoreCollapse">
+              Puntuación
+            </button>
+          </h2>
+          <div id="scoreCollapse" class="accordion-collapse collapse show">
+            <div class="accordion-body">
+              <p>{{ movie.vote_average }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#languageCollapse" aria-expanded="false" aria-controls="languageCollapse">
+              Idioma Original
+            </button>
+          </h2>
+          <div id="languageCollapse" class="accordion-collapse collapse">
+            <div class="accordion-body">
+              <p>{{ movie.original_language }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#budgetCollapse" aria-expanded="false" aria-controls="budgetCollapse">
+              Presupuesto
+            </button>
+          </h2>
+          <div id="budgetCollapse" class="accordion-collapse collapse">
+            <div class="accordion-body">
+              <p>{{ movie.budget | currency }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#revenueCollapse" aria-expanded="false" aria-controls="revenueCollapse">
+              Ingresos
+            </button>
+          </h2>
+          <div id="revenueCollapse" class="accordion-collapse collapse">
+            <div class="accordion-body">
+              <p>{{ movie.revenue | currency }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#statusCollapse" aria-expanded="false" aria-controls="statusCollapse">
+              Estado
+            </button>
+          </h2>
+          <div id="statusCollapse" class="accordion-collapse collapse">
+            <div class="accordion-body">
+              <p>{{ movie.status }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#overviewCollapse" aria-expanded="false" aria-controls="overviewCollapse">
+              Sinopsis
+            </button>
+          </h2>
+          <div id="overviewCollapse" class="accordion-collapse collapse">
+            <div class="accordion-body">
+              <p>{{ movie.overview }}</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="col-md-8">
-        <h2>{{ movie.title }}</h2>
-        <p><strong>Puntuación:</strong> {{ movie.vote_average }}</p>
-        <p><strong>Idioma Original:</strong> {{ movie.original_language }}</p>
-        <p><strong>Presupuesto:</strong> {{ movie.budget | currency }}</p>
-        <p><strong>Ingresos:</strong> {{ movie.revenue | currency }}</p>
-        <p><strong>Estado:</strong> {{ movie.status }}</p>
-        <p><strong>Sinopsis:</strong> {{ movie.overview }}</p>
-  
-        <h3>Reparto Principal</h3>
-        <div *ngIf="cast && cast.length > 0">
-          <div *ngFor="let actor of cast.slice(0, 5)" class="actor-card">
-            <img
-              *ngIf="actor.profile_path"
-              [src]="'https://image.tmdb.org/t/p/w185/' + actor.profile_path"
-              alt="{{ actor.name }}"
-              class="actor-image"
-            />
-            <p>{{ actor.name }}</p>
+
+      <h3>Reparto Principal</h3>
+      <div id="castCarousel" class="carousel slide">
+        <div class="carousel-inner">
+          <div *ngFor="let actor of cast; let i = index" class="carousel-item" [class.active]="i === 0">
+            <img *ngIf="actor.profile_path" [src]="'https://image.tmdb.org/t/p/w185/' + actor.profile_path" alt="{{ actor.name }}" class="d-block w-100" />
+            <div class="carousel-caption d-none d-md-block">
+              <h5>{{ actor.name }}</h5>
+            </div>
           </div>
         </div>
-        <div *ngIf="!cast || cast.length === 0">
-          <p>No hay reparto disponible.</p>
-        </div>
-  
-        <h3>Reseñas</h3>
-        <div *ngIf="reviews && reviews.length > 0">
-          <div *ngFor="let review of reviews" class="review-card">
-            <p><strong>Autor:</strong> {{ review.author }}</p>
-            <p>{{ review.content }}</p>
+        <button class="carousel-control-prev" type="button" data-bs-target="#castCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#castCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <h3>Reseñas</h3>
+      <div *ngIf="reviews && reviews.length > 0">
+        <div *ngFor="let review of reviews" class="card mb-3">
+          <div class="card-header">
+            {{ review.author }}
+          </div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              <p>{{ review.content }}</p>
+            </blockquote>
           </div>
         </div>
-        <div *ngIf="!reviews || reviews.length === 0">
-          <p>No hay reseñas disponibles.</p>
-        </div>
-  
-        <h3>Comentarios</h3>
-        <div class="comments-section">
-          <textarea
-            [(ngModel)]="newComment"
-            placeholder="Escribe tu comentario..."
-          ></textarea>
-          <button (click)="addComment()">Agregar Comentario</button>
-          <div *ngFor="let comment of comments" class="comment-card">
-            <p>{{ comment }}</p>
-          </div>
+      </div>
+      <div *ngIf="!reviews || reviews.length === 0">
+        <p>No hay reseñas disponibles.</p>
+      </div>
+
+      <h3>Comentarios</h3>
+      <div class="mb-3">
+        <label for="emailInput" class="form-label">Correo Electrónico:</label>
+        <input type="email" class="form-control" id="emailInput" [(ngModel)]="userEmail" />
+      </div>
+      <div class="mb-3">
+        <label for="commentInput" class="form-label">Escribe tu comentario:</label>
+        <textarea class="form-control" id="commentInput" rows="3" [(ngModel)]="newComment"></textarea>
+      </div>
+      <button class="btn btn-primary" (click)="addComment()">Agregar Comentario</button>
+      <div *ngFor="let comment of comments" class="card mt-3">
+        <div class="card-body">
+          <p><strong>{{ userEmail }}:</strong> {{ comment }}</p>
         </div>
       </div>
     </div>
   </div>
-  <div *ngIf="loading" class="text-center">
-      <p>Cargando...</p>
-  </div>
+</div>
+<div *ngIf="loading" class="text-center">
+    <p>Cargando...</p>
+</div>

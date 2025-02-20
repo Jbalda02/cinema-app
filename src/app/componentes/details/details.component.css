@@ -1,0 +1,56 @@
+.container {
+    margin-top: 20px;
+  }
+  
+  .col-md-4 {
+    text-align: center;
+  }
+  
+  .accordion {
+    margin-top: 20px;
+  }
+  
+  .accordion-item {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+  }
+  
+  .accordion-button {
+    font-weight: bold;
+  }
+  
+  .accordion-body {
+    padding: 1rem;
+  }
+  
+  .card {
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-header {
+    font-weight: bold;
+    background-color: #f8f9fa;
+  }
+  
+  .card-body blockquote {
+    margin-bottom: 0;
+  }
+  
+  .form-label {
+    font-weight: bold;
+  }
+  
+  textarea.form-control {
+    resize: vertical;
+  }
+  
+  .btn-primary {
+    margin-top: 10px;
+  }
+  
+  .card.mt-3 {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    padding: 10px;
+  }
