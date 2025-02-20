@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SearchByNameService } from '../../servicios/search-by-name.service';
@@ -70,3 +71,16 @@ export class DetailsComponent implements OnInit {
     }
   }
 }
+=======
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-details',
+  imports: [],
+  templateUrl: './details.component.html',
+  styleUrl: './details.component.css'
+})
+export class DetailsComponent {
+
+}
+>>>>>>> 48b8ad03655db0f0c97cfd0ec1f245c8132fa826

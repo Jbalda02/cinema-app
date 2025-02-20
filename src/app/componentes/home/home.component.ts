@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchByNameService } from '../../servicios/search-by-name.service';
 import { CommonModule } from '@angular/common';
+<<<<<<< HEAD
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { RouterModule } from '@angular/router'; // Importa RouterModule
@@ -11,6 +12,15 @@ import { RouterModule } from '@angular/router'; // Importa RouterModule
     standalone: true,
     templateUrl: './home.component.html',
     styleUrl: './home.component.css'
+=======
+
+@Component({
+  selector: 'app-home',
+  imports: [CommonModule],
+  standalone:true,
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.css'
+>>>>>>> 48b8ad03655db0f0c97cfd0ec1f245c8132fa826
 })
 export class HomeComponent {
   popularMovies: any = [];

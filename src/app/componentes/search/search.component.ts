@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { SearchByNameService } from '../../servicios/search-by-name.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+<<<<<<< HEAD
 import { RouterModule } from '@angular/router'; // Importa RouterModule
 
 @Component({
@@ -9,6 +10,14 @@ import { RouterModule } from '@angular/router'; // Importa RouterModule
     templateUrl: './search.component.html',
     imports: [CommonModule, RouterModule], // Agrega RouterModule a imports
     standalone: true
+=======
+
+@Component({
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  imports:[CommonModule],
+  standalone:true
+>>>>>>> 48b8ad03655db0f0c97cfd0ec1f245c8132fa826
 })
 export class SearchComponent implements OnInit {
   query: string = '';

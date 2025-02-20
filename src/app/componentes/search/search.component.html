@@ -1,5 +1,6 @@
 <h2>Search Results for "{{ query }}"</h2>
 <div class="container">
+<<<<<<< HEAD
     <div class="row">
         <div *ngFor="let movie of results" class="col-md-4 mb-4">
             <div class="card h-100">
@@ -15,4 +16,22 @@
             </div>
         </div>
     </div>
+=======
+  <div class="row">
+    <!-- Loop through the results and display each movie in a column -->
+    <div *ngFor="let movie of results" class="col-md-4 mb-4">
+      <div class="card h-100">
+        <img
+          src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}"
+          class="card-img-top"
+          alt="{{ movie.title }}"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ movie.title }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ movie.release_date }}</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+>>>>>>> 48b8ad03655db0f0c97cfd0ec1f245c8132fa826
 </div>
