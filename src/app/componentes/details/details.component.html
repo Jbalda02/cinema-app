@@ -135,13 +135,13 @@
       <div *ngIf="isLoggedIn">
         <div class="mb-3">
           <label for="reseñaInput" class="form-label text-white">Escribe tu reseña:</label>
-          <textarea class="form-control" id="reseñaInput" rows="3" [(ngModel)]="nuevaReseña.contenido"></textarea>
+          <textarea class="form-control" id="reseñaInput" rows="3" [(ngModel)]="nuevaResena.contenido"></textarea>
         </div>
         <div class="mb-3">
           <label for="calificacionInput" class="form-label text-white">Calificación:</label>
-          <input type="number" class="form-control" id="calificacionInput" [(ngModel)]="nuevaReseña.calificacion">
+          <input type="number" class="form-control" id="calificacionInput" [(ngModel)]="nuevaResena.calificacion">
         </div>
-        <button class="btn btn-primary" (click)="addReseña()">Agregar Reseña</button>
+        <button class="btn btn-primary" (click)="addResena()">Agregar Reseña</button>
       </div>
 
       <button class="btn btn-primary" (click)="agregarFavorito()">Agregar a Favoritos</button>

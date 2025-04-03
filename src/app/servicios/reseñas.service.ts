@@ -6,11 +6,24 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ReseñasService {
-  private apiUrl = 'http://localhost:3000/peliculas'; // URL del backend
+  private apiUrl = 'http://localhost:3000/reseñas'; // Reemplaza con la URL de tu API
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getReseñas(peliculaId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${peliculaId}/reseñas`);
+  obtenerReseñasPorPelicula(peliculaId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${peliculaId}`);
   }
+
+  crearReseña(reseña: any): Observable<any> {
+    return this.http.post(this.apiUrl, reseña);
+  }
+
+  actualizarReseña(reseñaId: number, reseña: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${reseñaId}`, reseña);
+  }
+
+  eliminarReseña(reseñaId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${reseñaId}`);
+  }
+
 }

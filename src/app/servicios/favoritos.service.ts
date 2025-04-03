@@ -6,15 +6,19 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class FavoritosService {
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = ''; // Reemplaza con la URL de tu API
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  agregarAFavoritos(userId: string, peliculaId: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/peliculas/favoritos`, { userId, peliculaId });
+  agregarFavorito(favorito: any): Observable<any> {
+    return this.http.post(this.apiUrl, favorito);
   }
 
-  getFavoritos(userId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/usuario/${userId}/perfil`);
+  eliminarFavorito(usuarioId: number, peliculaId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${usuarioId}/${peliculaId}`);
+  }
+
+  obtenerFavoritosPorUsuario(usuarioId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${usuarioId}`);
   }
 }

@@ -15,8 +15,8 @@ import {
 import { ComentariosService } from '../../servicios/get-comments.service';
 import { Usuario } from '../../interfaz/usuario';
 import { AuthService } from '../../servicios/auth.service';
-import { ReseñasService } from '../../servicios/reseñas.service'; // Importa ReseñasService
-import { FavoritosService } from '../../servicios/favoritos.service'; // Importa FavoritosService
+import { ReseñasService } from '../../servicios/reseñas.service';
+import { FavoritosService } from '../../servicios/favoritos.service';
 
 @Component({
   selector: 'app-details',
@@ -41,7 +41,7 @@ export class DetailsComponent implements OnInit {
     usuario_id: 0,
     descripcion: '',
   };
-  nuevaReseña: any = { // Agrega nuevaReseña
+  nuevaResena: any = {
     peliculaId: 0,
     usuarioId: 0,
     contenido: '',
@@ -53,8 +53,8 @@ export class DetailsComponent implements OnInit {
     private searchService: SearchByNameService,
     private commentService: ComentariosService,
     private authService: AuthService,
-    private reseñasService: ReseñasService, // Inyecta ReseñasService
-    private favoritosService: FavoritosService // Inyecta FavoritosService
+    private resenasService: ReseñasService,
+    private favoritosService: FavoritosService
   ) {
     this.loadCurrentUser();
   }
@@ -72,7 +72,7 @@ export class DetailsComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.movieId = +params['id'];
       this.nuevoComentario.id_pelicula = this.movieId;
-      this.nuevaReseña.peliculaId = this.movieId;
+      this.nuevaResena.peliculaId = this.movieId;
 
       this.searchService
         .getMovieDetails(this.movieId)
@@ -100,7 +100,7 @@ export class DetailsComponent implements OnInit {
           this.cast = data.cast;
         });
 
-      this.reseñasService.obtenerReseñasPorPelicula(this.movieId).subscribe({
+      this.resenasService.obtenerReseñasPorPelicula(this.movieId).subscribe({
         next: (reseñas) => {
           this.reviews = reseñas;
         },
@@ -154,18 +154,29 @@ export class DetailsComponent implements OnInit {
     });
   }
 
-  addReseña() {
-    this.nuevaReseña.peliculaId = this.movieId;
-    this.nuevaReseña.usuarioId = this.currentUser?.id;
+  addResena() {
+    this.nuevaResena.peliculaId = this.movieId;
+    this.nuevaResena.usuarioId = this.currentUser?.id;
 
-    this.reseñasService.crearReseña(this.nuevaReseña).subscribe({
+    this.resenasService.crearReseña(this.nuevaResena).subscribe({
       next: (response) => {
-        this.obtenerReseñas();
-        this.nuevaReseña.contenido = '';
-        this.nuevaReseña.calificacion = 0;
+        this.obtenerResenas();
+        this.nuevaResena.contenido = '';
+        this.nuevaResena.calificacion = 0;
       },
       error: (err) => {
         console.error('Error adding reseña:', err);
+      },
+    });
+  }
+
+  obtenerResenas() {
+    this.resenasService.obtenerReseñasPorPelicula(this.movieId).subscribe({
+      next: (reseñas) => {
+        this.reviews = reseñas;
+      },
+      error: (err) => {
+        console.error('Error obteniendo reseñas:', err);
       },
     });
   }
@@ -187,7 +198,10 @@ export class DetailsComponent implements OnInit {
   }
 
   eliminarFavorito() {
-    this.favoritosService.eliminarFavorito(this.currentUser?.id, this.movieId).subscribe({
+    const userId = this.currentUser?.id ?? 0; // Default to 0 if undefined
+    const movieId = this.movieId ?? 0; // Default to 0 if undefined
+  
+    this.favoritosService.eliminarFavorito(userId, movieId).subscribe({
       next: (response) => {
         // Lógica después de eliminar de favoritos
       },
