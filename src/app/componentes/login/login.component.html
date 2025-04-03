@@ -1,0 +1,66 @@
+<!-- login.component.html -->
+<div class="container-fluid d-flex align-items-center justify-content-center min-vh-100 bg-light">
+  <div class="login-container bg-white p-4 rounded shadow-sm" style="width: 100%; max-width: 400px;">
+    <div class="text-center mb-4">
+      <h2 class="mb-3">Iniciar Sesión</h2>
+      <p class="text-muted">Ingresa tus credenciales para acceder</p>
+    </div>
+    
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="mb-3">
+        <label for="correo_electronico" class="form-label">Correo Electrónico</label>
+        <input 
+          type="email" 
+          class="form-control" 
+          id="correo_electronico" 
+          name="correo_electronico" 
+          [(ngModel)]="credentials.correo_electronico" 
+          required
+          email
+          #email="ngModel">
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger mt-1">
+          <div *ngIf="email.errors?.['required']" class="small">El correo es requerido</div>
+          <div *ngIf="email.errors?.['email']" class="small">Formato de correo inválido</div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="contrasena" class="form-label">Contraseña</label>
+        <input 
+          type="password" 
+          class="form-control" 
+          id="contrasena" 
+          name="contrasena" 
+          [(ngModel)]="credentials.contrasena" 
+          required
+          minlength="6"
+          #password="ngModel">
+        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger mt-1">
+          <div *ngIf="password.errors?.['required']" class="small">La contraseña es requerida</div>
+          <div *ngIf="password.errors?.['minlength']" class="small">Mínimo 6 caracteres</div>
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+        {{ errorMessage }}
+      </div>
+
+      <button 
+        type="submit" 
+        class="btn btn-primary w-100 py-2 mt-3" 
+        [disabled]="loginForm.invalid || isLoading">
+        <span *ngIf="!isLoading">Iniciar Sesión</span>
+        <span *ngIf="isLoading">
+          <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+          <span role="status"> Cargando...</span>
+        </span>
+      </button>
+    </form>
+
+    <div class="text-center mt-3">
+      <p class="text-muted mb-0">¿No tienes cuenta? 
+        <a routerLink="/register" class="text-decoration-none">Regístrate</a>
+      </p>
+    </div>
+  </div>
+</div>

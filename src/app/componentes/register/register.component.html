@@ -1,0 +1,137 @@
+<div class="container-fluid d-flex align-items-center justify-content-center min-vh-100 bg-light">
+    <div class="register-container bg-white p-4 rounded shadow-sm" style="width: 100%; max-width: 600px;">
+      <div class="text-center mb-4">
+        <h2 class="mb-3">Registro de Usuario</h2>
+        <p class="text-muted">Complete el formulario para crear una cuenta</p>
+      </div>
+      
+      <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+        <div class="row g-3">
+          <!-- Primera columna -->
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre*</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="nombre" 
+                name="nombre" 
+                [(ngModel)]="userData.nombre" 
+                required
+                minlength="2"
+                #nombre="ngModel">
+              <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="text-danger mt-1 small">
+                <div *ngIf="nombre.errors?.['required']">El nombre es requerido</div>
+                <div *ngIf="nombre.errors?.['minlength']">Mínimo 2 caracteres</div>
+              </div>
+            </div>
+  
+            <div class="mb-3">
+              <label for="apellido" class="form-label">Apellido</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="apellido" 
+                name="apellido" 
+                [(ngModel)]="userData.apellido"
+                #apellido="ngModel">
+            </div>
+  
+            <div class="mb-3">
+              <label for="edad" class="form-label">Edad</label>
+              <input 
+                type="number" 
+                class="form-control" 
+                id="edad" 
+                name="edad" 
+                [(ngModel)]="userData.edad"
+                min="13"
+                max="120"
+                #edad="ngModel">
+              <div *ngIf="edad.invalid && (edad.dirty || edad.touched)" class="text-danger mt-1 small">
+                <div *ngIf="edad.errors?.['min'] || edad.errors?.['max']">Edad debe estar entre 13 y 120 años</div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Segunda columna -->
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="nombre_usuario" class="form-label">Nombre de Usuario*</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="nombre_usuario" 
+                name="nombre_usuario" 
+                [(ngModel)]="userData.nombre_usuario" 
+                required
+                minlength="4"
+                #nombre_usuario="ngModel">
+              <div *ngIf="nombre_usuario.invalid && (nombre_usuario.dirty || nombre_usuario.touched)" class="text-danger mt-1 small">
+                <div *ngIf="nombre_usuario.errors?.['required']">El nombre de usuario es requerido</div>
+                <div *ngIf="nombre_usuario.errors?.['minlength']">Mínimo 4 caracteres</div>
+              </div>
+            </div>
+  
+            <div class="mb-3">
+              <label for="correo_electronico" class="form-label">Correo Electrónico*</label>
+              <input 
+                type="email" 
+                class="form-control" 
+                id="correo_electronico" 
+                name="correo_electronico" 
+                [(ngModel)]="userData.correo_electronico" 
+                required
+                email
+                #correo_electronico="ngModel">
+              <div *ngIf="correo_electronico.invalid && (correo_electronico.dirty || correo_electronico.touched)" class="text-danger mt-1 small">
+                <div *ngIf="correo_electronico.errors?.['required']">El correo es requerido</div>
+                <div *ngIf="correo_electronico.errors?.['email']">Formato de correo inválido</div>
+              </div>
+            </div>
+  
+            <div class="mb-3">
+              <label for="contrasena" class="form-label">Contraseña*</label>
+              <input 
+                type="password" 
+                class="form-control" 
+                id="contrasena" 
+                name="contrasena" 
+                [(ngModel)]="userData.contrasena" 
+                required
+                minlength="8"
+                #contrasena="ngModel">
+              <div *ngIf="contrasena.invalid && (contrasena.dirty || contrasena.touched)" class="text-danger mt-1 small">
+                <div *ngIf="contrasena.errors?.['required']">La contraseña es requerida</div>
+                <div *ngIf="contrasena.errors?.['minlength']">Mínimo 8 caracteres</div>
+              </div>
+              <div class="form-text">Ejemplo: AnaSecure123!</div>
+            </div>
+          </div>
+        </div>
+  
+        <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+          {{ errorMessage }}
+        </div>
+  
+        <div class="d-grid gap-2">
+          <button 
+            type="submit" 
+            class="btn btn-primary py-2 mt-3" 
+            [disabled]="registerForm.invalid || isLoading">
+            <span *ngIf="!isLoading">Registrarse</span>
+            <span *ngIf="isLoading">
+              <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+              <span role="status"> Registrando...</span>
+            </span>
+          </button>
+          
+          <div class="text-center mt-3">
+            <p class="text-muted mb-0">¿Ya tienes cuenta? 
+              <a routerLink="/login" class="text-decoration-none">Inicia Sesión</a>
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
