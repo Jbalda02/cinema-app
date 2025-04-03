@@ -31,3 +31,28 @@ export interface Movie {
     content: string;
     // ... otras propiedades de la reseña
   }
+  
+
+export interface Comentario {
+  id: number;
+  descripcion: string;
+  id_pelicula: number;
+  usuario_id: number;
+  createdAt: string;
+  usuario: {
+    id_usuario: number;
+    nombre: string;
+    nombre_usuario: string;
+    avatar_url?: string;
+  };
+}
+export interface ComentariosResponse {
+  success: boolean;
+  data: Comentario[];
+  meta?: {
+    total: number;
+    currentPage: number;
+    totalPages: number;
+  };
+  error?: string; // Propiedad opcional para errores
+}

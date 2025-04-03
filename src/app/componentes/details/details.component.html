@@ -1,11 +1,7 @@
 <div class="container" *ngIf="movie">
   <div class="row">
     <div class="col-md-4">
-      <img
-        [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path"
-        alt="{{ movie.title }}"
-        class="img-fluid"
-      />
+      <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="{{ movie.title }}" class="img-fluid" />
     </div>
     <div class="col-md-8">
       <h2>{{ movie.title }}</h2>
@@ -13,7 +9,8 @@
       <div class="accordion" id="movieDetailsAccordion">
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#scoreCollapse" aria-expanded="true" aria-controls="scoreCollapse">
+            <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#scoreCollapse"
+              aria-expanded="true" aria-controls="scoreCollapse">
               Puntuación
             </button>
           </h2>
@@ -26,7 +23,8 @@
 
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#languageCollapse" aria-expanded="false" aria-controls="languageCollapse">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#languageCollapse" aria-expanded="false" aria-controls="languageCollapse">
               Idioma Original
             </button>
           </h2>
@@ -39,7 +37,8 @@
 
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#budgetCollapse" aria-expanded="false" aria-controls="budgetCollapse">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#budgetCollapse" aria-expanded="false" aria-controls="budgetCollapse">
               Presupuesto
             </button>
           </h2>
@@ -52,7 +51,8 @@
 
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#revenueCollapse" aria-expanded="false" aria-controls="revenueCollapse">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#revenueCollapse" aria-expanded="false" aria-controls="revenueCollapse">
               Ingresos
             </button>
           </h2>
@@ -65,7 +65,8 @@
 
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#statusCollapse" aria-expanded="false" aria-controls="statusCollapse">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#statusCollapse" aria-expanded="false" aria-controls="statusCollapse">
               Estado
             </button>
           </h2>
@@ -78,7 +79,8 @@
 
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#overviewCollapse" aria-expanded="false" aria-controls="overviewCollapse">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#overviewCollapse" aria-expanded="false" aria-controls="overviewCollapse">
               Sinopsis
             </button>
           </h2>
@@ -94,12 +96,11 @@
       <div id="castCarousel" class="carousel slide">
         <div class="carousel-inner">
           <div *ngFor="let actor of cast; let i = index" class="carousel-item" [class.active]="i === 0">
-            <div class="d-flex justify-content-center align-items-center" style="height: 400px;"> <!-- Adjust height as needed -->
-              <img *ngIf="actor.profile_path" 
-                   [src]="'https://image.tmdb.org/t/p/w185/' + actor.profile_path" 
-                   alt="No image Found" 
-                   class="img-fluid text-white" 
-                   style="max-height: 100%; width: autox;" /> <!-- Adjust max-height as needed -->
+            <div class="d-flex justify-content-center align-items-center" style="height: 400px;">
+              <!-- Adjust height as needed -->
+              <img *ngIf="actor.profile_path" [src]="'https://image.tmdb.org/t/p/w185/' + actor.profile_path"
+                alt="No image Found" class="img-fluid text-white" style="max-height: 100%; width: autox;" />
+              <!-- Adjust max-height as needed -->
             </div>
             <div class="carousel-caption d-none d-md-block">
               <h5 class="text-white">{{ actor.name }}</h5>
@@ -134,23 +135,24 @@
       </div>
 
       <h3 class="text-white">Comentarios</h3>
-      <div class="mb-3">
-        <label for="emailInput" class="form-label text-white">Correo Electrónico:</label>
-        <input type="email" class="form-control" id="emailInput" [(ngModel)]="userEmail" />
-      </div>
-      <div class="mb-3">
-        <label for="commentInput" class="form-label text-white">Escribe tu comentario:</label>
-        <textarea class="form-control" id="commentInput" rows="3" [(ngModel)]="newComment"></textarea>
-      </div>
-      <button class="btn btn-primary" (click)="addComment()">Agregar Comentario</button>
       <div *ngFor="let comment of comments" class="card mt-3">
         <div class="card-body">
-          <p><strong>{{ userEmail }}:</strong> {{ comment }}</p>
+          <p><strong>{{ comment.usuario.nombre_usuario }}:</strong> {{ comment.descripcion }}</p>
         </div>
+      </div>
+      <div *ngIf="isLoggedIn" class="mt-4">
+        <div class="mb-3">
+          <label for="commentInput" class="form-label text-white">Escribe tu comentario:</label>
+          <textarea class="form-control" id="commentInput" rows="3" [(ngModel)]="nuevoComentario.descripcion"></textarea>
+        </div>
+        <button class="btn btn-primary" (click)="addComment()">Agregar Comentario</button>
+      </div>
+      <div *ngIf="!isLoggedIn" class="">
+        <button class="btn btn-primary" routerLink="/login">Ingresa Para Anadir tu comentario</button>
       </div>
     </div>
   </div>
 </div>
 <div *ngIf="loading" class="text-center">
-    <p>Cargando...</p>
+  <p>Cargando...</p>
 </div>

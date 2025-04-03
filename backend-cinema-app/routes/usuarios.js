@@ -89,13 +89,13 @@ router.post('/usuarios/registro', validarRegistro, async (req, res) => {
     });
 
     // Generar token JWT
-    const token = generarToken(nuevoUsuario.id_usuario);
+    const token = generarToken(nuevoUsuario.id);
 
     // Responder con los datos del usuario y token
     const usuarioResponse = {
       success: true,
       usuario: {
-        id: nuevoUsuario.id_usuario,
+        id: nuevoUsuario.id,
         nombre: nuevoUsuario.nombre,
         nombre_usuario: nuevoUsuario.nombre_usuario,
         correo_electronico: nuevoUsuario.correo_electronico
@@ -157,14 +157,14 @@ router.post('/usuarios/login', validarLogin, async (req, res) => {
     }
 
     // Generar token JWT
-    const token = generarToken(usuarioEncontrado.id_usuario);
+    const token = generarToken(usuarioEncontrado.id);
 
     // Responder con datos del usuario y token
     return res.json({
       success: true,
       mensaje: 'Inicio de sesión exitoso',
       usuario: {
-        id: usuarioEncontrado.id_usuario,
+        id: usuarioEncontrado.id,
         nombre: usuarioEncontrado.nombre,
         nombre_usuario: usuarioEncontrado.nombre_usuario,
         correo_electronico: usuarioEncontrado.correo_electronico

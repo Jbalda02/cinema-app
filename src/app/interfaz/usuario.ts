@@ -1,6 +1,6 @@
 export interface Usuario {
     // src/app/models/user.model.ts
-    id_usuario?: number;
+    id?: number;
     nombre: string;
     nombre_usuario: string;
     correo_electronico: string;

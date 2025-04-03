@@ -26,7 +26,7 @@ export class SearchComponent implements OnInit {
       if (this.query) {
         this.searchService.searchMovies(this.query).subscribe((data: any) => {
           this.results = data.results; // Update search results
-          console.log(this.results)
+        //  console.log(this.results)
         });
       }
     });

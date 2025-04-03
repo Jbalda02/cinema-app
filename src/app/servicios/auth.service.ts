@@ -53,13 +53,13 @@ register(userData: {
         errorMessage = error.statusText || 'Error en la solicitud';
       }
     }
-    console.log(errorMessage)
+   // console.log(errorMessage)
     return throwError(() => new Error(errorMessage));
   }
 
   // Cerrar sesión
   logout(): void {
-    console.log(localStorage.getItem('user'))
+   // console.log(localStorage.getItem('user'))
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.router.navigate(['/login']);
@@ -78,6 +78,7 @@ register(userData: {
   // Guardar datos de sesión
   private setSession(authData: any): void {
     localStorage.setItem('token', authData.token);
+   // console.log(authData.user)
     localStorage.setItem('user', JSON.stringify(authData.user));
   }
 
