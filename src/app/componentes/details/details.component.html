@@ -97,10 +97,8 @@
         <div class="carousel-inner">
           <div *ngFor="let actor of cast; let i = index" class="carousel-item" [class.active]="i === 0">
             <div class="d-flex justify-content-center align-items-center" style="height: 400px;">
-              <!-- Adjust height as needed -->
               <img *ngIf="actor.profile_path" [src]="'https://image.tmdb.org/t/p/w185/' + actor.profile_path"
-                alt="No image Found" class="img-fluid text-white" style="max-height: 100%; width: autox;" />
-              <!-- Adjust max-height as needed -->
+                alt="No image Found" class="img-fluid text-white" style="max-height: 100%; width: auto;" />
             </div>
             <div class="carousel-caption d-none d-md-block">
               <h5 class="text-white">{{ actor.name }}</h5>
@@ -133,6 +131,21 @@
       <div *ngIf="!reviews || reviews.length === 0">
         <p class="text-white">No hay reseñas disponibles.</p>
       </div>
+
+      <div *ngIf="isLoggedIn">
+        <div class="mb-3">
+          <label for="reseñaInput" class="form-label text-white">Escribe tu reseña:</label>
+          <textarea class="form-control" id="reseñaInput" rows="3" [(ngModel)]="nuevaReseña.contenido"></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="calificacionInput" class="form-label text-white">Calificación:</label>
+          <input type="number" class="form-control" id="calificacionInput" [(ngModel)]="nuevaReseña.calificacion">
+        </div>
+        <button class="btn btn-primary" (click)="addReseña()">Agregar Reseña</button>
+      </div>
+
+      <button class="btn btn-primary" (click)="agregarFavorito()">Agregar a Favoritos</button>
+      <button class="btn btn-danger" (click)="eliminarFavorito()">Eliminar de Favoritos</button>
 
       <h3 class="text-white">Comentarios</h3>
       <div *ngFor="let comment of comments" class="card mt-3">

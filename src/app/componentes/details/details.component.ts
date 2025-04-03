@@ -15,11 +15,13 @@ import {
 import { ComentariosService } from '../../servicios/get-comments.service';
 import { Usuario } from '../../interfaz/usuario';
 import { AuthService } from '../../servicios/auth.service';
+import { ReseñasService } from '../../servicios/reseñas.service'; // Importa ReseñasService
+import { FavoritosService } from '../../servicios/favoritos.service'; // Importa FavoritosService
 
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [CommonModule, FormsModule, CurrencyPipe,RouterModule],
+  imports: [CommonModule, FormsModule, CurrencyPipe, RouterModule],
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.css'],
 })
@@ -29,36 +31,49 @@ export class DetailsComponent implements OnInit {
   reviews: Review[] = [];
   comments: Comentario[] = [];
   newComment: string = '';
-  userEmail: string = ''; // Agrega esta propiedad
+  userEmail: string = '';
   loading = false;
-  currentUser:Usuario | null = null;
-  isLoggedIn = false
-  movieId = 0
+  currentUser: Usuario | null = null;
+  isLoggedIn = false;
+  movieId = 0;
   nuevoComentario: any = {
-    id_pelicula:0,
-    usuario_id:0,
-    descripcion:''
-  }
+    id_pelicula: 0,
+    usuario_id: 0,
+    descripcion: '',
+  };
+  nuevaReseña: any = { // Agrega nuevaReseña
+    peliculaId: 0,
+    usuarioId: 0,
+    contenido: '',
+    calificacion: 0,
+  };
+
   constructor(
     private route: ActivatedRoute,
     private searchService: SearchByNameService,
     private commentService: ComentariosService,
-    private authService:AuthService
-  ) {this.loadCurrentUser()}
+    private authService: AuthService,
+    private reseñasService: ReseñasService, // Inyecta ReseñasService
+    private favoritosService: FavoritosService // Inyecta FavoritosService
+  ) {
+    this.loadCurrentUser();
+  }
 
   private loadCurrentUser() {
     const userData = localStorage.getItem('user');
     this.currentUser = userData ? JSON.parse(userData) : null;
-   // console.log(this.currentUser)
-    this.nuevoComentario.usuario_id = this.currentUser?.id
+    this.nuevoComentario.usuario_id = this.currentUser?.id;
   }
+
   ngOnInit() {
     this.isLoggedIn = this.authService.isAuthenticated();
 
     this.loading = true;
     this.route.params.subscribe((params) => {
       this.movieId = +params['id'];
-      this.nuevoComentario.id_pelicula = this.movieId; 
+      this.nuevoComentario.id_pelicula = this.movieId;
+      this.nuevaReseña.peliculaId = this.movieId;
+
       this.searchService
         .getMovieDetails(this.movieId)
         .pipe(
@@ -85,25 +100,20 @@ export class DetailsComponent implements OnInit {
           this.cast = data.cast;
         });
 
-      this.searchService
-        .getMovieReviews(this.movieId)
-        .pipe(
-          catchError((error) => {
-            console.error('Error fetching movie reviews:', error);
-            return of({ results: [] });
-          })
-        )
-        .subscribe((data) => {
-          this.reviews = data.results;
-        });
+      this.reseñasService.obtenerReseñasPorPelicula(this.movieId).subscribe({
+        next: (reseñas) => {
+          this.reviews = reseñas;
+        },
+        error: (err) => {
+          console.error('Error fetching reseñas from backend:', err);
+        },
+      });
 
-      // En el método ngOnInit
       this.commentService.getAllComentariosPorPelicula(this.movieId).subscribe({
         next: (response) => {
           if (response.success) {
-         //   console.log(response)
             this.comments = response.data;
-          } 
+          }
         },
         error: (err) => {
           console.error('Error en la solicitud:', err);
@@ -111,6 +121,7 @@ export class DetailsComponent implements OnInit {
       });
     });
   }
+
   loadComments(movieId: number) {
     this.loading = true;
     this.commentService.getAllComentariosPorPelicula(movieId).subscribe({
@@ -121,29 +132,68 @@ export class DetailsComponent implements OnInit {
       error: (err) => {
         this.loading = false;
         console.error('Error cargando comentarios:', err);
-      }
+      },
     });
   }
+
   addComment() {
-    if (!this.nuevoComentario.descripcion.trim()){
-      return
+    if (!this.nuevoComentario.descripcion.trim()) {
+      return;
     }
-   // console.log(this.nuevoComentario)
-    
+
     this.commentService.crearComentario(this.nuevoComentario).subscribe({
       next: (response) => {
         if (response.success) {
-        //  console.log('Comentario agregado:', response.data);
-          // Limpiar el formulario
           this.nuevoComentario.descripcion = '';
-          // Aquí puedes actualizar la lista de comentarios
-          this.loadComments(this.movieId)
+          this.loadComments(this.movieId);
         }
       },
       error: (err) => {
         console.error('Error al agregar comentario:', err);
-        // Mostrar mensaje de error al usuario
-      }
+      },
+    });
+  }
+
+  addReseña() {
+    this.nuevaReseña.peliculaId = this.movieId;
+    this.nuevaReseña.usuarioId = this.currentUser?.id;
+
+    this.reseñasService.crearReseña(this.nuevaReseña).subscribe({
+      next: (response) => {
+        this.obtenerReseñas();
+        this.nuevaReseña.contenido = '';
+        this.nuevaReseña.calificacion = 0;
+      },
+      error: (err) => {
+        console.error('Error adding reseña:', err);
+      },
+    });
+  }
+
+  agregarFavorito() {
+    const favorito = {
+      usuarioId: this.currentUser?.id,
+      peliculaId: this.movieId,
+    };
+
+    this.favoritosService.agregarFavorito(favorito).subscribe({
+      next: (response) => {
+        // Lógica después de agregar a favoritos
+      },
+      error: (err) => {
+        console.error('Error adding to favorites:', err);
+      },
+    });
+  }
+
+  eliminarFavorito() {
+    this.favoritosService.eliminarFavorito(this.currentUser?.id, this.movieId).subscribe({
+      next: (response) => {
+        // Lógica después de eliminar de favoritos
+      },
+      error: (err) => {
+        console.error('Error removing from favorites:', err);
+      },
     });
   }
 }

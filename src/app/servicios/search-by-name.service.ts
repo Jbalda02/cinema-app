@@ -37,6 +37,7 @@ export class SearchByNameService {
 
   getMovieReviews(movieId: number): Observable<Reviews> {
     const url = `${this.baseUrl}/movie/${movieId}/reviews?api_key=${this.apiKey}`;
+    return this.http.get<any>(`http://localhost:3000/peliculas/${movieId}/reseñas`);
     return this.http.get<Reviews>(url).pipe(catchError(this.handleError));
   }
 
