@@ -16,7 +16,10 @@ const corsOptions = {
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var usuarioRouter = require('./routes/usuarios');
-var comentariosRouter = require('./routes/comentarios')
+var comentariosRouter = require('./routes/comentarios');
+var reseñasRouter = require('./routes/reseñas'); // Importamos rutas de reseñas
+var favoritosRouter = require('./routes/favoritos'); // Importamos rutas de favoritos
+
 var app = express();
 
 // view engine setup
@@ -35,7 +38,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', usuarioRouter);
-app.use('/comentarios', comentariosRouter)
+app.use('/comentarios', comentariosRouter);
+app.use('/reseñas', reseñasRouter);
+app.use('/favoritos', favoritosRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

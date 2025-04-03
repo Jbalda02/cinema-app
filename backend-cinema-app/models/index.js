@@ -40,4 +40,25 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+// Reseñas y Usuarios
+db.Reseñas.belongsTo(db.usuario, { foreignKey: 'usuarioId', as: 'usuario' });
+db.usuario.hasMany(db.Reseñas, { foreignKey: 'usuarioId', as: 'reseñas' });
+
+// Reseñas y Peliculas
+db.Reseñas.belongsTo(db.peliculas, { foreignKey: 'peliculaId', as: 'pelicula' });
+db.peliculas.hasMany(db.Reseñas, { foreignKey: 'peliculaId', as: 'reseñas' });
+
+// Usuarios y Peliculas Favoritas (Relación Muchos a Muchos)
+db.usuario.belongsToMany(db.peliculas, {
+  through: 'UsuarioPeliculaFavorita',
+  as: 'peliculasFavoritas',
+  foreignKey: 'usuarioId'
+});
+
+db.peliculas.belongsToMany(db.usuario, {
+  through: 'UsuarioPeliculaFavorita',
+  as: 'usuariosFavoritos',
+  foreignKey: 'peliculaId'
+});
+
 module.exports = db;
